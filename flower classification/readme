@@ -1,0 +1,96 @@
+鸢尾花种类分析
+模式识别文献中最通用、简单和灵活多样的数据集
+数据：https://archive.ics.uci.edu/ml/datasets/Iris 
+教程：https://www.slideshare.net/thoi_gian/iris-data-analysis-with-r(其实并没有很大的用处(～﹃～)~zZ)
+任务：根据可用的属性预测花的种类。
+
+标准数据集的导入以及处理
+我们将采用scikit-learn库中自带的鸢尾花数据集进行测试。
+鸢尾花数据集包括鸢尾花的测量数据（特征属性）以及其所属的类别。
+测量数据特征包括: 萼片长度、萼片宽度、花瓣长度、花瓣宽度
+所属类别有三类: Iris Setosa，Iris Versicolour，Iris Virginica ，用数字0,1,2表示。
+#通过python加载鸢尾花数据集数据：X 有四个属性，标签y 有 0，1，2 三类
+iris = datasets.load_iris()
+iris_X = iris.data
+iris_y = iris.target
+拆分数据集为训练数据和测试数据：
+#内部knn调用测试：predict 测试集的数据，knn训练出来的结果
+X_train, X_test, y_train, y_test = train_test_split(iris_X, iris_y, test_size=0.3)
+knn = KNeighborsClassifier()
+knn.fit(X_train, y_train)
+
+
+
+KNN算法用python实现
+K-Nearest Neighbor（k最邻近分类算法），简称KNN，是最简单的一种有监督的机器学习算法。
+创建新建一个kNN.py脚本文件，文件里面包含两个函数，一个用来生成小数据集，一个实现kNN分类算法
+创建所需读入的数据集
+# 创建一个数据集
+def createDataSet():
+    # 生成一个矩阵，每行表示一个样本
+    group=flower.iris_X
+    #group = array([[5.1,3.5,1.4 ,0.2]，  [4.9 ,3,1.4 ,0.2],[6.5 ,3. ,5.2,2. ],[6.2, 3.4, 5.4, 2.3]])
+    # 4个样本分别所属的类别
+    labels=flower.iris_y
+    #labels = ['0', '0', '2', '2']
+    return group, labels
+
+
+
+实现KNN的分类算法
+def kNNClassify(newInput, dataSet, labels, k):
+    numSamples = dataSet.shape[0]   # shape[0]表示行数
+    # # step 1: 计算距离
+    diff = tile(newInput, (numSamples, 1)) - dataSet  # 按元素求差值
+    squaredDiff = diff ** 2  # 将差值平方
+    squaredDist = sum(squaredDiff, axis = 1)   # 按行（axis=1）累加
+    distance = squaredDist ** 0.5  # 将差值平方和求开方，即得距离
+
+    # # step 2: 对距离排序
+    # argsort() 返回排序后的索引值
+    sortedDistIndices = argsort(distance)
+    classCount = {} # define a dictionary (can be append element)
+    for i in range(k):
+
+        # # step 3: 选择k个最近邻
+        voteLabel = labels[sortedDistIndices[i]]
+
+        # # step 4: 计算k个最近邻中各类别出现的次数
+        classCount[voteLabel] = classCount.get(voteLabel, 0) + 1
+
+    # # step 5: 返回出现次数最多的类别标签
+    maxCount = 0
+    for key, value in classCount.items():
+        if value > maxCount:
+            maxCount = value
+            maxIndex = key
+
+    return maxIndex
+
+Test.py用来输出测试结果
+import knn
+from numpy import *
+#生成数据集和类别标签
+dataSet,labels = knn.createDataSet()
+#定义一个未知类别的数据
+testX = array([5.9, 3.1, 5.1, 1.8])
+k=3
+#调用分类函数对未知数据分类
+outputLabel = knn.kNNClassify(testX, dataSet, labels, 3)
+print("Your input is:", testX, " and classified to class:", outputLabel)
+
+
+测试结果：
+Your input is: [5.9 3.1 5.1 1.8]  and classified to class: 2
+
+
+python matplotlib 画多类散点图
+#画散点，标注类别
+X_2,X_1, X_0 = iris_X[iris_y == 2],iris_X[iris_y == 1],iris_X[iris_y ==0]
+plt.scatter(X_2[:, 2], X_2[:, 3],marker = 'x',color = 'red', s = 40 ,label= 'Iris-virginica')
+plt.scatter(X_1[:, 2], X_1[:, 3], marker = '+', color = 'blue', s = 40,label = 'versicolor')
+plt.scatter(X_0[:, 2], X_0[:, 3],  marker = 'o', color = 'green', s =40,label = 'setosa')
+plt.legend(loc = 'best')
+plt.show()
+
+
