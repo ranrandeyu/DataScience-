@@ -1,0 +1,46 @@
+Boston housing prediction
+此数据集是来自波士顿（美国）的房地产业。这是一个线性回归问题，数据有506行14列
+数据：https://www.cs.toronto.edu/~delve/ data/boston/bostonDetail.html
+教程：https://www.analyticsvidhya.com/ blog/2015/11/started-machine-learning-ms-excel-xl-miner/
+任务：预测自住房屋的中位数值
+
+
+已知影响boston房价的13种数据的具体内容，预测自住房屋的中位数值（MEDN）
+CRIM：城镇人均犯罪率。 
+ZN：住宅用地超过 25000 sq.ft. 的比例。 
+INDUS：城镇非零售商用土地的比例。 
+CHAS：查理斯河空变量（如果边界是河流，则为1；否则为0）。 
+NOX：一氧化氮浓度。 
+RM：住宅平均房间数。 
+AGE：1940 年之前建成的自用房屋比例。 
+DIS：到波士顿五个中心区域的加权距离。 
+RAD：辐射性公路的接近指数。 
+TAX：每 10000 美元的全值财产税率。 
+PTRATIO：城镇师生比例。 
+B：1000（Bk-0.63）^ 2，其中 Bk 指代城镇中黑人的比例。 
+LSTAT：人口中地位低下者的比例。 
+MEDV：自住房的平均房价，以千美元计。
+
+
+建立模型（线性回归）
+1 函数模型
+2 损失函数（cost）：
+      最小二乘法：何为最小二乘法，其实很简单。我们有很多的给定点，这时候我们需要找出一条线去拟合它，那么我先假设这个线的方程，然后把数据点代入假设的方程得到观测值，求使得实际值与观测值相减的平方和最小的参数。对变量求偏导联立便可求。
+      因此损失代价函数为：
+
+3 算法（algorithm）：
+求解出一个使得代价函数最小的W：
+矩阵不满秩
+PS：https://www.cnblogs.com/GuoJiaSheng/p/3928160.html
+https://blog.csdn.net/july_sun/article/details/53223962
+
+距离高速公路的便利指数和房价的关系
+x = data.loc[:, 'RAD'].as_matrix(columns=None)
+y = data.loc[:, 'PRICE'].as_matrix(columns=None)
+画图是会出现的问题
+Reshape your data either using array.reshape(-1, 1) if your data has a single feature or array.reshape(1, -1) if it contains a single sample.
+
+矩阵转置
+x = np.array([x]).T
+y = np.array([y]).T
+
