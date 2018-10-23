@@ -3,7 +3,7 @@
 
 有监督学习：给定训练集的每个个体是一对作为输入的特征向量和标签
            目的：推断各个参数，预测测试数据的目标值
-           
+
 无监督学习：
 分布方法：
 1.最大期望值法
@@ -32,12 +32,19 @@ PCA
 有监督机器学习
 
 
+
+
+
+
+
+
 文件命名的时候不要使用跟模块一样的名字会出现调用失败的
 
 Numpy---处理向量和行列式计算的库
 Matplotlib--用于科学计算的库
 Pandas--提供类似R语言的数据框架的库
 Scikit-learn--用于机器学习的库
+
 
 
 Numpy基础：数组和矢量计算
@@ -64,4 +71,45 @@ obj1.index.name='state'
 DataFrame表格型的数据结构
 Ffill/pad可以实现向数字大的填充
 obj3.reindex(range(6),method='pad')
+
+算术运算和数据对齐df1+df2
+自动的数据对齐操作在不重叠的索引处引入NA值，取并集
+
+算术填充df1.sub(df2,fill_value=0)
+同项向减，单独跟0运算(df2-df1)
+
+映射
+apply 用在dataframe上，用于对row或者column进行计算；
+ f = lambda x: x.max() - x.min()
+ df.apply(f)
+applymap 用于dataframe上,作用在dataframe的每一个元素上
+df.applymap(f)
+
+map （其实是python自带的）用于series上，是元素级别的操作。
+df['b'].map(format)
+
+唯一值和值计数
+uniques=obj4.unique()
+obj4.value_counts()
+
+处理缺失数据
+Dropna 根据各标签的值是否存在缺失数据对轴标签进行过滤，可通过阈值调节对缺失值的容忍度
+Fillna 用指定值或插值方法填充缺失数据
+Isnull 返回一个含有布尔值的对象，这些布尔值表示那些值是缺失值/NA，该对象的类型与源类型一样
+Notnull isnull的否定
+
+pd.DataFrame可以实现删去不显示的效果，Series仍会显示出来，用nan表示
+data1=pd.DataFrame([[1,NA,3.4,NA,7],[NA,NA,NA,NA,NA],[0,3,45,66,2,4]])
+data1=Series([[1,NA,3.4,NA,7],[NA,NA,NA,NA,NA],[0,3,45,66,2,4]])
+舍去包含NA的行
+clean=data1.dropna()
+舍去全部是NA的行
+print(data1.dropna(how='all'))
+
+填充缺失数据(中位数)
+print(data1.fillna(data1.mean()))
+
+层次化索引
+data3[:,2]
+
 
