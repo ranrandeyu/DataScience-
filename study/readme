@@ -113,3 +113,22 @@ print(data1.fillna(data1.mean()))
 data3[:,2]
 
 
+数据加载、存储与文件格式
+读取文件(标题不存在)
+pd.read_csv('housing.csv',header=None)
+
+读取前几行数
+Nrows=5
+读取列数
+
+Json数据
+Json.dumps将python转化为json格式
+Json.loads将json转换为python格式
+
+读取excel文件
+xls=pd.ExcelFile('data.xls')
+
+Web API的调用
+import requests
+url='https://api.github.com/search/repositories?q=language:python&sort=stars'
+resp=requests.get(url)
