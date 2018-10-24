@@ -98,11 +98,26 @@ data2[(np.abs(data2)>3).any(1)]#全部中超过-3或者3的值
 808 -0.362528 -3.548824  1.553205 -2.186301
 900  3.366626 -2.372214  0.851010  1.332846
 '''
-#正则表达式
-text='Dave dave@google.com ' \
-     'Steve steve@gmail.com ' \
-     'Rob rob@yahoo.com'
-pattern=r'[A-Z0-9._%+-]+@[A-Z0-9.-]+.\[A-Z]{2,4}'
-regex=re.compile(pattern,flags=re.IGNORECASE)
-print(regex)
-print(regex.findall(text))
+#字符串函数
+text={'Dave':'dave@google.com ',  'Steve':'steve@gmail.com ', 'Rob':'rob@yahoo.com'}
+data3=Series(text)
+'''Dave     dave@google.com 
+Steve    steve@gmail.com 
+Rob         rob@yahoo.com
+dtype: object'''
+#检查是否存在某个字符串
+data3.str.contains('e')
+'''dtype: object
+Dave      True
+Steve     True
+Rob      False
+dtype: bool'''
+pattern=r'([A-Z0-9._%+-]+)@([A-Z0-9.-]+)\\.([A-Z]{2,4})'
+data3.str.findall(pattern,flags=re.IGNORECASE)
+'''Dave     [dave@google.com]
+Steve    [steve@gmail.com]
+Rob        [rob@yahoo.com]
+dtype: object'''
+matches=data3.str.match(pattern,flags=re.IGNORECASE)
+print(matches)
+print(matches.str[0])
