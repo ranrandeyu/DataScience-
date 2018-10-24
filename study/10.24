@@ -34,3 +34,6 @@ np.random.seed(12345)
 data2=DataFrame(np.random.randn(1000,4))
 data2.describe()
 data2[(np.abs(data2)>3).any(1)]#全部中超过-3或者3的值
+
+检查是否存在某个字符串
+print(data3.str.contains('e'))
