@@ -1,0 +1,41 @@
+绘图和可视化
+建立subplot的图表
+import matplotlib.pyplot as plt
+from numpy.random import randn
+fig=plt.figure()
+ax1=fig.add_subplot(2,2,1)
+ax2=fig.add_subplot(2,2,2)
+ax3=fig.add_subplot(2,2,3)
+
+保存文件
+plt.savefig('first.png')
+
+pandas中的绘图函数
+线型图
+s=Series(np.random.randn(10).cumsum(),index=np.arange(0,100,10))
+df=DataFrame(np.random.randn(10,4).cumsum(0),columns=['A','B','C','D'],index=np.arange(0,100,10))
+柱状图
+fig1,axes=plt.subplots(2,1)
+data=Series(np.random.randn(4),index=list('sadr'))
+data.plot(kind='bar', ax=axes[0], color='k', alpha=0.7)
+data.plot(kind='barh',ax=axes[1],color='k',alpha=0.7)
+df1=DataFrame(np.random.randn(4,4).cumsum(0),columns=pd.Index(['A','B','C','D']))
+df1.plot(kind='bar')
+带有密度估计的规格化直方图
+comp1=np.random.normal(0,1,size=200)
+comp2=np.random.normal(10,2,size=200)
+values=Series(np.concatenate([comp1,comp2]))
+values.hist(bins=100,alpha=0.3,color='k',normed=True)
+values.plot(kind='kde',style='k--')
+plt.show()
+散布图
+X1 = np.arange(1, 1002, 1)
+X2 = np.random.normal(3, 1, 1001)
+X3= np.random.randn(1001)
+X4 = np.random.rand(1001)
+X5 = np.random.beta(2, 1, 1001)
+test_data = np.column_stack((np.column_stack((np.column_stack((np.column_stack((X1, X2)), X3)), X4)), X5))
+test_frame = pd.DataFrame(test_data)
+pd.scatter_matrix(test_frame, diagonal='kde', color='g', figsize=(10, 10))
+
+
